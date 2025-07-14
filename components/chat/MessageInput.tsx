@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import ImagePreviewModal from './ImagePreviewModal';
 
 // Define the form schema
 const messageSchema = z.object({
@@ -19,6 +20,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   // Set mounted state
   useEffect(() => {
@@ -91,12 +93,17 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
       {/* Image preview - only shown on client side */}
       {isMounted && imagePreview && (
         <div className="relative mb-2 w-24 h-24 rounded-md overflow-hidden border border-gray-300 dark:border-gray-700">
-          <Image 
-            src={imagePreview} 
-            alt="Preview" 
-            fill
-            style={{ objectFit: 'cover' }}
-          />
+          <div 
+            className="w-full h-full cursor-pointer" 
+            onClick={() => setIsPreviewModalOpen(true)}
+          >
+            <Image 
+              src={imagePreview} 
+              alt="Preview" 
+              fill
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
           <button
             className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
             onClick={handleRemoveImage}
@@ -116,6 +123,15 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
             </svg>
           </button>
         </div>
+      )}
+
+      {/* Image preview modal */}
+      {imagePreview && (
+        <ImagePreviewModal 
+          imageUrl={imagePreview} 
+          isOpen={isPreviewModalOpen} 
+          onClose={() => setIsPreviewModalOpen(false)} 
+        />
       )}
 
       {/* Message form */}

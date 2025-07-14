@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Message } from '@/store/slices/chatSlice';
 import Image from 'next/image';
+import ImagePreviewModal from './ImagePreviewModal';
 
 interface MessageItemProps {
   message: Message;
@@ -10,6 +11,7 @@ interface MessageItemProps {
 export default function MessageItem({ message, onCopy }: MessageItemProps) {
   const [showCopyButton, setShowCopyButton] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   // Set mounted state
   useEffect(() => {
@@ -56,14 +58,26 @@ export default function MessageItem({ message, onCopy }: MessageItemProps) {
         {/* Message content */}
         <div className="mb-1">
           {message.imageUrl && (
-            <div className="mb-2 relative w-full h-48 rounded-md overflow-hidden">
-              <Image 
-                src={message.imageUrl} 
-                alt="Uploaded image" 
-                fill
-                style={{ objectFit: 'cover' }}
+            <>
+              <div 
+                className="mb-2 relative w-64 h-64 mx-auto rounded-md overflow-hidden cursor-pointer"
+                onClick={() => setIsPreviewModalOpen(true)}
+              >
+                <Image 
+                  src={message.imageUrl} 
+                  alt="Uploaded image" 
+                  fill
+                  style={{ objectFit: 'contain' }}
+                />
+              </div>
+
+              {/* Image preview modal */}
+              <ImagePreviewModal 
+                imageUrl={message.imageUrl} 
+                isOpen={isPreviewModalOpen} 
+                onClose={() => setIsPreviewModalOpen(false)} 
               />
-            </div>
+            </>
           )}
           <p className="whitespace-pre-wrap">{message.content}</p>
         </div>
