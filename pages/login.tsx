@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestOtp, verifyOtp, resetOtpState } from '@/store/slices/authSlice';
+import { createDefaultChatrooms } from '@/store/slices/chatSlice';
 import { RootState } from '@/store';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
@@ -75,7 +76,7 @@ export default function Login() {
       try {
         const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,idd,flags');
         const data = await response.json();
-        
+
         const formattedCountries: Country[] = data
           .filter((country: any) => country.idd.root) // Filter out countries without dial codes
           .map((country: any) => ({
@@ -85,9 +86,9 @@ export default function Login() {
             flag: country.flags.svg,
           }))
           .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-        
+
         setCountries(formattedCountries);
-        
+
         // Set default selected country (US)
         const defaultCountry = formattedCountries.find((c) => c.code === 'IN');
         if (defaultCountry) {
@@ -113,14 +114,14 @@ export default function Login() {
   // Handle phone form submission
   const onPhoneSubmit = (data: PhoneFormValues) => {
     setIsLoading(true);
-    
+
     // Simulate API call to send OTP
     setTimeout(() => {
       dispatch(requestOtp({ 
         phoneNumber: data.phoneNumber, 
         countryCode: data.countryCode 
       }));
-      
+
       toast.success('OTP sent to your phone');
       setIsLoading(false);
     }, 1500);
@@ -129,10 +130,20 @@ export default function Login() {
   // Handle OTP form submission
   const onOtpSubmit = (data: OtpFormValues) => {
     setIsLoading(true);
-    
+
     // Simulate API call to verify OTP
     setTimeout(() => {
       dispatch(verifyOtp());
+
+      // Ensure default chats are initialized when user logs in
+      if (typeof window !== 'undefined') {
+        const storedChatrooms = localStorage.getItem('chatrooms');
+        if (!storedChatrooms || JSON.parse(storedChatrooms).length === 0) {
+          const defaultChatrooms = createDefaultChatrooms();
+          localStorage.setItem('chatrooms', JSON.stringify(defaultChatrooms));
+        }
+      }
+
       toast.success('Login successful');
       setIsLoading(false);
       router.push('/dashboard');
