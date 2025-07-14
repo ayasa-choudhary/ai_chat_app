@@ -38,7 +38,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
   // Handle form submission
   const onSubmit = (data: MessageFormValues) => {
     if (!isMounted) return;
-    onSendMessage(data.content, imagePreview);
+    onSendMessage(data.content, imagePreview || undefined);
     reset();
     setImagePreview(null);
   };
