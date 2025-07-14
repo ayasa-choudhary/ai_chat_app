@@ -135,11 +135,11 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
       )}
 
       {/* Message form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex items-end">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2">
         <div className="flex-1 relative">
           <textarea
             {...register('content')}
-            className="w-full p-3 pr-10 border border-gray-300 dark:border-gray-700 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:text-white resize-none"
+            className="w-full p-3 pr-10 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:text-white resize-none h-[38px] min-h-[38px] overflow-y-auto"
             placeholder="Type a message..."
             rows={1}
             onKeyDown={handleKeyDown}
@@ -181,7 +181,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
         {/* Send button */}
         <button
           type="submit"
-          className="bg-primary hover:bg-primary-dark text-white p-3 rounded-r-md"
+          className="bg-primary hover:bg-primary-dark text-white px-3 py-[9px] rounded-md h-[38px] flex items-center justify-center border border-primary"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
