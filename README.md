@@ -58,7 +58,7 @@ yarn start
 The project follows a modular structure:
 
 ```
-kuvaka_tech_task/
+ai_chat_app/
 ├── components/           # Reusable UI components
 │   ├── chat/            # Chat-related components
 │   │   ├── ChatInterface.tsx    # Main chat container
