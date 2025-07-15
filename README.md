@@ -87,6 +87,20 @@ kuvaka_tech_task/
 - **MessageInput**: Handles message composition, form validation, and image uploads.
 - **MessageItem**: Displays individual messages with support for text and images.
 
+### Login Components
+
+- **Login Page**: Implements a two-step authentication process with phone number input and OTP verification:
+  - Phone number validation with country code selection
+  - OTP verification with form validation
+  - Responsive design for both mobile and desktop
+  - Integration with Redux for state management
+
+- **Authentication State Management**: Handles user authentication state using Redux:
+  - OTP request and verification actions
+  - User session persistence using localStorage
+  - Secure logout functionality
+  - State management for authentication flow
+
 ## Implementation Details
 
 ### Throttling
