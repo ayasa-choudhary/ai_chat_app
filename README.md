@@ -24,7 +24,7 @@ This project is a chat application that mimics the functionality of Google's Gem
 1. Clone the repository:
 ```bash
 git clone [https://github.com/ayasa-choudhary/ai_chat_app]
-cd kuvaka_tech_task
+cd ai_chat_app
 ```
 
 2. Install dependencies:
